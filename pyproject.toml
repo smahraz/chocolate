@@ -1,0 +1,9 @@
+[project]
+name = "chocolate"
+version = "0.1.0"
+description = "Discord bot works with 42 network API, tracks the progress of students"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "discord-py>=2.6.4",
+]
