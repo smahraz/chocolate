@@ -32,15 +32,15 @@ async def on_ready():
 
 
 @bot.event
-async def on_member_join(members):
-    await members.send("Mr7babik")
+async def on_member_join(members: discord.Member):
+    await members.send(f"{members.mention} Mr7babik")
 
 
 @bot.event
 async def on_message(msg: discord.Message):
     if msg.author == bot.user:
         return
-    if msg.content.lower().startswith("!delete "):
+    if msg.content.lower().startswith("!nuke"):
         await msg.delete()
         await msg.channel.send(
             f"{msg.author.mention} your message was deleted"
