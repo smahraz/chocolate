@@ -1,10 +1,11 @@
 from chocolate.api42 import IntraV2
 from chocolate.cards import ProfileCard
 from discord.ext import commands
+from chocolate.cogs import load_cogs
 import discord
 import dotenv
 import os
-import logging
+# import logging
 
 
 dotenv.load_dotenv()
@@ -12,11 +13,11 @@ dotenv.load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
 
 
-handler = logging.FileHandler(
-    filename="log/discord.log",
-    encoding="utf-8",
-    mode="w"
-)
+# handler = logging.FileHandler(
+#     filename="log/discord.log",
+#     encoding="utf-8",
+#     mode="w"
+# )
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -28,7 +29,8 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 @bot.event
 async def on_ready():
-    print(f"Starting... {bot.user.name}")
+    await load_cogs(bot)
+    print(f"[{bot.user.name}] loaded")
 
 
 @bot.event
@@ -63,4 +65,5 @@ async def profile(ctx: commands.Context, login: str = ""):
 
 
 if __name__ == "__main__":
-    bot.run(TOKEN, log_handler=handler, log_level=logging.DEBUG)
+    # bot.run(TOKEN, log_handler=handler, log_level=logging.DEBUG)
+    bot.run(TOKEN)
