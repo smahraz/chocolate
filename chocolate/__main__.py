@@ -1,3 +1,5 @@
+from chocolate.api42 import IntraV2
+from chocolate.cards import ProfileCard
 from discord.ext import commands
 import discord
 import dotenv
@@ -45,9 +47,20 @@ async def on_message(msg: discord.Message):
         )
     await bot.process_commands(msg)
 
+
 @bot.command()
 async def ping(ctx: commands.Context):
     await ctx.send(f"pong {ctx.author.mention}")
+
+
+@bot.command()
+async def profile(ctx: commands.Context, login: str = ""):
+    if not login:
+        await ctx.message.reply("!profile <login>")
+        return
+    user_data = IntraV2.profile_info(login)
+    await ctx.send(embed=ProfileCard.embed(user_data))
+
 
 if __name__ == "__main__":
     bot.run(TOKEN, log_handler=handler, log_level=logging.DEBUG)
