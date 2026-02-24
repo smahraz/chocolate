@@ -2,14 +2,31 @@ import os
 from discord.ext.commands import Bot
 
 
-async def load_cogs(bot: Bot):
+async def load_cogs(bot: Bot) -> list[str]:
     cogs_path = os.path.dirname(__file__)
 
-    files = [
-        f for f in os.listdir(cogs_path)
+    cogs = [
+        f"chocolate.cogs.{f[:-3]}" for f in os.listdir(cogs_path)
         if f.endswith(".py")
         and not f.startswith('_')
     ]
 
-    for fl in files:
-        await bot.load_extension(f"chocolate.cogs.{fl[:-3]}")
+    for cog in cogs:
+        await bot.load_extension(cog)
+
+    return cogs
+
+
+async def reload_cogs(bot: Bot) -> list[str]:
+    cogs_path = os.path.dirname(__file__)
+
+    cogs = [
+        f"chocolate.cogs.{f[:-3]}" for f in os.listdir(cogs_path)
+        if f.endswith(".py")
+        and not f.startswith('_')
+    ]
+
+    for cog in cogs:
+        await bot.reload_extension(cog)
+
+    return cogs
