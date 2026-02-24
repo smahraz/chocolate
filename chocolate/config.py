@@ -1,6 +1,4 @@
 from pydantic import BaseModel, Field, field_validator, ValidationError
-import json
-
 
 
 class BotConfig(BaseModel):

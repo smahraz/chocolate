@@ -16,7 +16,6 @@ class ModeratorTools(commands.Cog):
         await sleep(5)
         await ctx.channel.purge(limit=None)
 
-
     @clear.error
     async def clear_error(self, ctx: commands.Context, error):
         if isinstance(error, commands.MissingAnyRole):
