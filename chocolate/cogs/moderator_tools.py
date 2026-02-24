@@ -1,5 +1,6 @@
 from asyncio import sleep
 from discord.ext import commands
+from chocolate.config import bot_config
 
 
 class ModeratorTools(commands.Cog):
@@ -7,6 +8,7 @@ class ModeratorTools(commands.Cog):
         self.bot = bot
 
     @commands.command()
+    @commands.has_any_role(*bot_config.moderators)
     async def clear(self, ctx: commands.Context) -> None:
         await ctx.message.reply(
             f"This channel will be clear {ctx.author.mention}"
@@ -14,15 +16,17 @@ class ModeratorTools(commands.Cog):
         await sleep(5)
         await ctx.channel.purge(limit=None)
 
-    @commands.command()
-    async def spam(self, ctx: commands.Context, amount: int = 0) -> None:
-        if amount > 10:
-            await ctx.message.reply("WTF!")
-            return
-        for _ in range(amount):
-            await ctx.send("spam")
-            await sleep(0.2)
-        await ctx.send("done spamming!")
+
+    @clear.error
+    async def clear_error(self, ctx: commands.Context, error):
+        if isinstance(error, commands.MissingAnyRole):
+            await ctx.author.send(
+                "You don't have permission for that action, sorry <3"
+            )
+        elif isinstance(error, commands.NoPrivateMessage):
+            await ctx.author.send("Try !cleardm")
+        else:
+            raise error
 
 
 async def setup(bot: commands.Bot):
