@@ -13,7 +13,7 @@ class ModeratorTools(commands.Cog):
         await ctx.message.reply(
             f"This channel will be clear {ctx.author.mention}"
         )
-        await sleep(5)
+        await sleep(1)
         await ctx.channel.purge(limit=None)
 
     @clear.error
