@@ -3,8 +3,9 @@ from pydantic import BaseModel, Field, field_validator, ValidationError
 
 class BotConfig(BaseModel):
     moderators: list[str] = Field(min_length=1)
+    devs: list[str] = Field(min_length=1)
 
-    @field_validator('moderators', mode="after")
+    @field_validator('moderators', 'devs', mode="after")
     @classmethod
     def moderators_(cls, moderators: list[str]) -> list[str]:
         for role in moderators:
