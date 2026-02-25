@@ -1,5 +1,3 @@
-from chocolate.api42 import IntraV2
-from chocolate.cards import ProfileCard
 from discord.ext import commands
 from chocolate.cogs import load_cogs
 import discord
@@ -41,15 +39,6 @@ async def on_member_join(members: discord.Member):
 @bot.command()
 async def ping(ctx: commands.Context):
     await ctx.send(f"pong {ctx.author.mention}")
-
-
-@bot.command()
-async def profile(ctx: commands.Context, login: str = ""):
-    if not login:
-        await ctx.message.reply("!profile <login>")
-        return
-    user_data = IntraV2.profile_info(login)
-    await ctx.send(embed=ProfileCard.embed(user_data))
 
 
 if __name__ == "__main__":
