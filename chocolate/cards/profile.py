@@ -32,7 +32,7 @@ class ProfileCard(Card):
         if cc_cursus:
             card.add_field(
                 name="Level:",
-                value=cc_cursus[-1]['level'],
+                value=round(cc_cursus[-1]['level'], 2)
             )
             return True
         return False
@@ -46,7 +46,7 @@ class ProfileCard(Card):
         if piscin_cursus:
             card.add_field(
                 name="Piscin Level:",
-                value=piscin_cursus[-1]['level']
+                value=round(piscin_cursus[-1]['level'], 2)
             )
 
     @staticmethod
