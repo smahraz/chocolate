@@ -7,7 +7,7 @@ from chocolate.config import bot_config
 class IntraTools(commands.Cog):
 
     @commands.command()
-    # @commands.has_any_role(*bot_config.intra_access_roles)
+    @commands.has_any_role(*bot_config.roles.intra_access)
     async def profile(self, ctx: commands.Context, login: str = ""):
         if not login:
             await ctx.message.reply("!profile <login>")

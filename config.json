@@ -1,8 +1,14 @@
 {
-  "moderators": [
-    "Staff"
-  ],
-  "devs": [
-    "Bot Dev"
-  ]
+  "roles": {
+    "moderators": [
+      "Staff"
+    ],
+    "devs": [
+      "Bot Dev"
+    ],
+    "intra_access": [
+      "Staff",
+      "Intra"
+    ]
+  }
 }

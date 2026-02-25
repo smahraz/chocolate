@@ -9,7 +9,7 @@ class DevTools(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    @commands.has_any_role(*bot_config.devs)
+    @commands.has_any_role(*bot_config.roles.devs)
     async def devReload(self, ctx: commands.Context) -> None:
         cogs = await reload_cogs(self.bot)
         msg = await ctx.send("\n".join(cogs))

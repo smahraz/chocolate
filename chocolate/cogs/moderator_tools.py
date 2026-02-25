@@ -8,7 +8,7 @@ class ModeratorTools(commands.Cog):
         self.bot = bot
 
     @commands.command()
-    @commands.has_any_role(*bot_config.moderators)
+    @commands.has_any_role(*bot_config.roles.intra_access)
     async def clear(self, ctx: commands.Context) -> None:
         await ctx.message.reply(
             f"This channel will be clear {ctx.author.mention}"
@@ -28,7 +28,7 @@ class ModeratorTools(commands.Cog):
             raise error
 
     @commands.command()
-    @commands.has_any_role(*bot_config.moderators)
+    @commands.has_any_role(*bot_config.roles.intra_access)
     async def harem(self, ctx: commands.Context) -> None:  # name just a joke.
         bot_replay = await ctx.message.reply(
             f"Clear non-bot messages {ctx.author.mention}"
