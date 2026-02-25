@@ -30,14 +30,13 @@ class ModeratorTools(commands.Cog):
     @commands.command()
     @commands.has_any_role(*bot_config.moderators)
     async def harem(self, ctx: commands.Context) -> None:  # name just a joke.
-        msg = await ctx.message.reply(
+        bot_replay = await ctx.message.reply(
             f"Clear non-bot messages {ctx.author.mention}"
         )
         async for msg in ctx.history(limit=None):
             if not msg.author.bot:
-                print(msg.author.name)
                 await msg.delete()
-        await msg.delete()
+        await bot_replay.delete()
 
 
 async def setup(bot: commands.Bot):
