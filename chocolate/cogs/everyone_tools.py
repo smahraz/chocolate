@@ -7,7 +7,7 @@ class EveryoneTools(commands.Cog):
 
     @commands.command()
     async def cleardm(self, ctx: commands.Context) -> None:
-        async for msg in ctx.author.history(limit=50):
+        async for msg in ctx.author.history(limit=None):
             if msg.author == self.bot.user:
                 await msg.delete()
 
