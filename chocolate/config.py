@@ -5,8 +5,15 @@ class _Roles(BaseModel):
     moderators: list[str] = Field(min_length=1)
     devs: list[str]
     intra_access: list[str] = Field(min_length=1)
+    clear_channel: list[str]
 
-    @field_validator('moderators', 'devs', 'intra_access', mode="after")
+    @field_validator(
+        'moderators',
+        'devs',
+        'intra_access',
+        'clear_channel',
+        mode="after"
+    )
     @classmethod
     def validate_roles_list(cls, roles_list: list[str]) -> list[str]:
         for role in roles_list:

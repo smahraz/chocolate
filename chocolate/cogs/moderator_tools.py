@@ -1,29 +1,51 @@
 from asyncio import sleep
 from discord.ext import commands
 from chocolate.config import bot_config
+from discord import app_commands as app
+from discord import Interaction
 
 
 class ModeratorTools(commands.Cog):
     def __init__(self, bot) -> None:
         self.bot = bot
 
-    @commands.command()
-    @commands.has_any_role(*bot_config.roles.intra_access)
-    async def clear(self, ctx: commands.Context) -> None:
-        await ctx.message.reply(
-            f"This channel will be clear {ctx.author.mention}"
+    async def cog_check(self, ctx) -> bool:
+        print("error")
+        if not any(
+            role.name in bot_config.roles.moderators
+            for role in ctx.author.roles
+        ):
+            raise commands.MissingAnyRole(bot_config.roles.moderators)
+        return True
+
+    @app.command(
+        name="clear",
+        description="Clear all messages in this channel"
+    )
+    @app.checks.has_any_role(*bot_config.roles.clear_channel)
+    async def clear(self, interaction: Interaction) -> None:
+        await interaction.response.send_message(
+            "Clearing this channel by you",
+            ephemeral=True
         )
         await sleep(1)
-        await ctx.channel.purge(limit=None)
+        await interaction.channel.purge(limit=None)
 
     @clear.error
-    async def clear_error(self, ctx: commands.Context, error):
-        if isinstance(error, commands.MissingAnyRole):
-            await ctx.author.send(
-                "You don't have permission for that action, sorry <3"
+    async def clear_error(
+            self,
+            interaction: Interaction,
+            error: app.AppCommandError
+    ):
+        if isinstance(error, app.MissingAnyRole):
+            await interaction.response.send_message(
+                "You don't have permission to clear this channel.",
+                ephemeral=True
             )
-        elif isinstance(error, commands.NoPrivateMessage):
-            await ctx.author.send("Try !cleardm")
+        elif isinstance(error, app.NoPrivateMessage):
+            await interaction.response.send_message(
+                "You could try `/cleardm` here."
+            )
         else:
             raise error
 

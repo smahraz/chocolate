@@ -5,6 +5,8 @@ from chocolate.cogs import reload_cogs
 
 
 class DevTools(commands.Cog):
+    bot: commands.Bot
+
     def __init__(self, bot) -> None:
         self.bot = bot
 
@@ -12,6 +14,7 @@ class DevTools(commands.Cog):
     @commands.has_any_role(*bot_config.roles.devs)
     async def devReload(self, ctx: commands.Context) -> None:
         cogs = await reload_cogs(self.bot)
+        await self.bot.tree.sync()
         msg = await ctx.send("\n".join(cogs))
         await sleep(2)
         await msg.delete()
