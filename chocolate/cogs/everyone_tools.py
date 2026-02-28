@@ -15,7 +15,7 @@ class EveryoneTools(commands.Cog):
             if msg.author == self.bot.user:
                 await msg.delete()
         await interaction.response.send_message(
-            "Your `DM` is free.",
+            "Your `DM` is clean.",
             ephemeral=True
         )
 
