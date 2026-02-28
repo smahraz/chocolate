@@ -19,6 +19,12 @@ class DevTools(commands.Cog):
         await sleep(2)
         await msg.delete()
 
+    @commands.command()
+    @commands.has_any_role(*bot_config.roles.devs)
+    async def devCommand(self, ctx: commands.Context) -> None:
+        for cmd in self.bot.tree.get_commands():
+            await ctx.send(cmd.name + "-" + cmd.description)
+
 
 async def setup(bot: commands.Bot):
     print(f"Loading [{__name__}]")
