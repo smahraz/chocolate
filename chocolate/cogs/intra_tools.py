@@ -2,18 +2,18 @@ from discord.ext import commands
 from chocolate.api42 import IntraV2
 from chocolate.cards import ProfileCard
 from chocolate.config import bot_config
+from discord import Interaction
+from discord import app_commands as app
 
 
 class IntraTools(commands.Cog):
 
-    @commands.command()
-    @commands.has_any_role(*bot_config.roles.intra_access)
-    async def profile(self, ctx: commands.Context, login: str = ""):
-        if not login:
-            await ctx.message.reply("!profile <login>")
-            return
+    @app.command(description="Show intra profile")
+    async def profile(self, interaction: Interaction, login: str):
         user_data = IntraV2.profile_info(login)
-        await ctx.send(embed=ProfileCard.embed(user_data))
+        await interaction.response.send_message(
+            embed=ProfileCard.embed(user_data)
+        )
 
 
 async def setup(bot: commands.Bot):
