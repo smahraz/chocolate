@@ -1,15 +1,23 @@
 from discord.ext import commands
+from discord import app_commands as app
+from discord import Interaction
 
 
 class EveryoneTools(commands.Cog):
     def __init__(self, bot) -> None:
         self.bot = bot
 
-    @commands.command()
-    async def cleardm(self, ctx: commands.Context) -> None:
-        async for msg in ctx.author.history(limit=None):
+    @app.command(
+        description="Delete all the messages sent by bot in your DM"
+    )
+    async def cleardm(self, interaction: Interaction) -> None:
+        async for msg in interaction.user.history(limit=None):
             if msg.author == self.bot.user:
                 await msg.delete()
+        await interaction.response.send_message(
+            "Your `DM` is free.",
+            ephemeral=True
+        )
 
 
 async def setup(bot: commands.Bot):
