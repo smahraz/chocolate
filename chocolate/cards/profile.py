@@ -1,13 +1,13 @@
 from typing import Any
 from .card import Card
-import discord
+from discord import Embed, Color
 
 
 class ProfileCard(Card):
     @classmethod
-    def embed(cls, data: dict[str, Any]) -> discord.Embed:
+    def embed(cls, data: dict[str, Any]) -> Embed:
 
-        card = discord.Embed(
+        card = Embed(
             color=cls.card_color(data),
             title=data['usual_full_name'],
             url=f"https://intra.42.fr/users/{data['login']}"
@@ -24,7 +24,7 @@ class ProfileCard(Card):
         return card
 
     @staticmethod
-    def cc_grade(card: discord.Embed, data: dict) -> bool:
+    def cc_grade(card: Embed, data: dict) -> bool:
         user_cursus = data["cursus_users"]
         cc_cursus = [
             cursus for cursus in user_cursus if cursus['grade'] == 'Cadet'
@@ -38,7 +38,7 @@ class ProfileCard(Card):
         return False
 
     @staticmethod
-    def pool_grade(card: discord.Embed, data: dict) -> None:
+    def pool_grade(card: Embed, data: dict) -> None:
         user_cursus = data["cursus_users"]
         piscin_cursus = [
             cursus for cursus in user_cursus if cursus['grade'] == 'Pisciner'
@@ -50,14 +50,14 @@ class ProfileCard(Card):
             )
 
     @staticmethod
-    def points_field(card: discord.Embed, data: dict) -> None:
+    def points_field(card: Embed, data: dict) -> None:
         card.add_field(
             name="Points:",
             value=data["correction_point"]
         )
 
     @staticmethod
-    def wallet_field(card: discord.Embed, data: dict) -> None:
+    def wallet_field(card: Embed, data: dict) -> None:
         wallet = data["wallet"]
         if wallet:
             card.add_field(
@@ -66,7 +66,7 @@ class ProfileCard(Card):
             )
 
     @staticmethod
-    def campus_field(card: discord.Embed, data: dict[str, Any]) -> None:
+    def campus_field(card: Embed, data: dict[str, Any]) -> None:
         campuses = data['campus']
         campuses_name = [campus["name"] for campus in campuses]
         card.add_field(
@@ -75,18 +75,18 @@ class ProfileCard(Card):
         )
 
     @staticmethod
-    def card_color(data: dict) -> discord.Color:
+    def card_color(data: dict) -> Color:
         kind = data["kind"]
         match kind.lower():
             case "student":
-                return discord.Color.brand_green()
+                return Color.brand_green()
             case "admin":
-                return discord.Color.purple()
+                return Color.purple()
         print(kind)
-        return discord.Color.red()
+        return Color.red()
 
     @staticmethod
-    def login_field(card: discord.Embed, data: dict) -> None:
+    def login_field(card: Embed, data: dict) -> None:
         card.add_field(
             name=f"{data['kind'].capitalize()}:",
             value=f"`{data['login']}`",

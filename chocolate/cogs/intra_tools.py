@@ -1,9 +1,15 @@
 from discord.ext import commands
 from chocolate.api42 import IntraV2
-from chocolate.cards import ProfileCard
+from chocolate.cards import ProfileCard, PermissionErrorCard
 from chocolate.config import bot_config
 from discord import Interaction
 from discord import app_commands as app
+
+
+_INTRA_EMBED_ERROR = PermissionErrorCard.embed(
+    "You dont have access to **Intra**.\n"
+    "Contact _Admins_ maybe,"
+)
 
 
 class IntraTools(commands.Cog):
@@ -29,8 +35,7 @@ class IntraTools(commands.Cog):
     async def profile_erro(self, interaction: Interaction, error):
         if isinstance(error, app.MissingAnyRole):
             await interaction.response.send_message(
-                "Sorry, you don't have permissions.\n"
-                "contact *_Admins_*",
+                embed=_INTRA_EMBED_ERROR,
                 ephemeral=True
             )
         else:

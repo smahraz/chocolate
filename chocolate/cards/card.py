@@ -6,5 +6,5 @@ import discord
 class Card(ABC):
     @classmethod
     @abstractmethod
-    def embed(cls, data: dict[str, Any]) -> discord.Embed:
+    def embed(cls, data: Any) -> discord.Embed:
         pass
