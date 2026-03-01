@@ -5,13 +5,11 @@ class _Roles(BaseModel):
     moderators: list[str] = Field(min_length=1)
     devs: list[str]
     intra_access: list[str] = Field(min_length=1)
-    clear_channel: list[str]
 
     @field_validator(
         'moderators',
         'devs',
         'intra_access',
-        'clear_channel',
         mode="after"
     )
     @classmethod

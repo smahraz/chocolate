@@ -9,9 +9,6 @@
     "intra_access": [
       "Staff",
       "Intra"
-    ],
-    "clear_channel": [
-      "Staff"
     ]
   }
 }

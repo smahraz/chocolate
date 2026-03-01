@@ -1,5 +1,6 @@
 from asyncio import sleep
 from discord.ext import commands
+from chocolate.cards import PermissionErrorCard
 from chocolate.config import bot_config
 from discord import app_commands as app
 from discord import Interaction
@@ -22,7 +23,7 @@ class ModeratorTools(commands.Cog):
         name="clear",
         description="Clear all messages in this channel"
     )
-    @app.checks.has_any_role(*bot_config.roles.clear_channel)
+    @app.checks.has_permissions(manage_messages=True)
     async def clear(self, interaction: Interaction) -> None:
         await interaction.response.send_message(
             "Clearing this channel by you",
@@ -37,9 +38,11 @@ class ModeratorTools(commands.Cog):
             interaction: Interaction,
             error: app.AppCommandError
     ):
-        if isinstance(error, app.MissingAnyRole):
+        if isinstance(error, app.MissingPermissions):
             await interaction.response.send_message(
-                "You don't have permission to clear this channel.",
+                embed=PermissionErrorCard.embed(
+                    "You can't mange messages",
+                ),
                 ephemeral=True
             )
         elif isinstance(error, app.NoPrivateMessage):
