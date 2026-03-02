@@ -3,8 +3,9 @@ from .card import Card
 from .permission import PermissionErrorCard
 
 
-__all__ = [
+__all__ = (
     "ProfileCard",
     "Card",
-    "PermissionErrorCard"
-]
+    "PermissionErrorCard",
+    "ProjectCard"
+)
