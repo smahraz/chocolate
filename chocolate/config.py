@@ -24,8 +24,13 @@ class _Roles(BaseModel):
         return roles_list
 
 
+class _Channels(BaseModel):
+    projects_report: list[int]
+
+
 class BotConfig(BaseModel):
     roles: _Roles
+    channels: _Channels
 
 
 try:
