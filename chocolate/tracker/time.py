@@ -15,8 +15,8 @@ class LastCheck:
         cls._save_to_file()
 
     @classmethod
-    def get_time(cls) -> datetime:
-        return cls.date
+    def get_time(cls) -> str:
+        return cls.date.strftime("%Y-%m-%dT%H:%M:%SZ")
 
     @classmethod
     def _init(cls) -> None:

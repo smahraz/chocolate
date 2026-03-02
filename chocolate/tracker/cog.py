@@ -1,6 +1,9 @@
 from discord.ext import commands, tasks
 from chocolate.config import bot_config
 from .time import LastCheck
+from chocolate.api42 import IntraV2
+from chocolate.cards import ProjectCard
+import asyncio
 
 
 class ProjectsTrackerCog(commands.Cog):
@@ -11,13 +14,24 @@ class ProjectsTrackerCog(commands.Cog):
     @tasks.loop(seconds=450)
     async def last_closed_teams(self):
         channel_ids = bot_config.channels.projects_report
-        channels = filter(
+        channels = list(filter(
             lambda chnl: chnl is not None,
             [self.bot.get_channel(channel_id) for channel_id in channel_ids]
+        ))
+
+        data = IntraV2.validated_projects(
+            ["75",],
+            LastCheck.get_time(),
+            page_size=400
         )
-        for chnl in channels:
-            await chnl.send(f"hello {LastCheck.get_time()}")
-            LastCheck.update_time()
+
+        for project in data:
+            for chnl in channels:
+                await chnl.send(embed=ProjectCard.embed(project))
+                await asyncio.sleep(0.7)
+            await asyncio.sleep(3)
+
+        LastCheck.update_time()
 
     @last_closed_teams.before_loop
     async def before_checker(self):
