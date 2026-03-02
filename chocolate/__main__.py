@@ -27,6 +27,7 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 @bot.event
 async def on_ready():
+    await bot.load_extension("chocolate.tracker.cog")
     await load_cogs(bot)
     await bot.tree.sync()
     print(f"[{bot.user.name}] loaded")
