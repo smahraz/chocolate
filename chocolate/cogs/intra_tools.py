@@ -1,6 +1,10 @@
 from discord.ext import commands
 from chocolate.api42 import IntraV2
-from chocolate.cards import ProfileCard, PermissionErrorCard
+from chocolate.cards import (
+        ProfileCard,
+        PermissionErrorCard,
+        ProfileNotFoundCard
+)
 from chocolate.config import bot_config
 from discord import Interaction
 from discord import app_commands as app
@@ -27,9 +31,15 @@ class IntraTools(commands.Cog):
     @app.checks.has_any_role(*bot_config.roles.intra_access)
     async def profile(self, interaction: Interaction, login: str):
         user_data = IntraV2.profile_info(login)
-        await interaction.response.send_message(
-            embed=ProfileCard.embed(user_data)
-        )
+        if user_data:
+            await interaction.response.send_message(
+                embed=ProfileCard.embed(user_data)
+            )
+        else:
+            await interaction.response.send_message(
+                embed=ProfileNotFoundCard.embed("Maybe the *login* was wrong"),
+                ephemeral=True
+            )
 
     @profile.error
     async def profile_erro(self, interaction: Interaction, error):

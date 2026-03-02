@@ -1,11 +1,12 @@
 from .profile import ProfileCard, ProjectCard
 from .card import Card
-from .permission import PermissionErrorCard
+from .error import PermissionErrorCard, ProfileNotFoundCard
 
 
 __all__ = (
     "ProfileCard",
     "Card",
     "PermissionErrorCard",
-    "ProjectCard"
+    "ProjectCard",
+    "ProfileNotFoundCard"
 )
