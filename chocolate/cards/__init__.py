@@ -1,4 +1,4 @@
-from .profile import ProfileCard
+from .profile import ProfileCard, ProjectCard
 from .card import Card
 from .permission import PermissionErrorCard
 

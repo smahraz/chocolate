@@ -1,6 +1,38 @@
+from datetime import datetime
 from typing import Any
 from .card import Card
 from discord import Embed, Color
+
+
+class ProjectCard(Card):
+    @classmethod
+    def embed(cls, data: dict[str, Any]) -> Embed:
+        card = Embed(
+            title=data["project"]["name"],
+            color=cls.card_color(data),
+            description=data['user']['login']
+        )
+
+        card.set_thumbnail(url=data["user"]["image"]["link"])
+        cls.marked_at(card, data)
+
+        cls.project_grade(card, data)
+        return card
+
+    @staticmethod
+    def card_color(data: dict) -> Color:
+        return Color.green() if data["validated?"] else Color.red()
+
+    @staticmethod
+    def project_grade(card: Embed, data: dict) -> None:
+        value = str(data['final_mark'])
+        value += " ✅" if data["validated?"] else " ❌"
+        card.add_field(name="Grade:", value=value)
+
+    @staticmethod
+    def marked_at(card: Embed, data: dict) -> None:
+        time = datetime.fromisoformat(data['marked_at'].rstrip("Z"))
+        card.set_footer(text=time.strftime("%d/%m/%Y %I:%M%p"))
 
 
 class ProfileCard(Card):
