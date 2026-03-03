@@ -11,7 +11,7 @@ class ProjectsTrackerCog(commands.Cog):
         self.bot = bot
         self.last_closed_teams.start()
 
-    @tasks.loop(seconds=450)
+    @tasks.loop(seconds=300)
     async def last_closed_teams(self):
         channel_ids = bot_config.channels.projects_report
         channels = list(filter(
@@ -25,6 +25,7 @@ class ProjectsTrackerCog(commands.Cog):
             page_size=400
         )
 
+        print("Last Check At:", LastCheck.date.strftime("%Y-%m-%d %I:%M%p"))
         for project in data:
             for chnl in channels:
                 await chnl.send(embed=ProjectCard.embed(project))
