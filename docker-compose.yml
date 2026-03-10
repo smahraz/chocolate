@@ -1,0 +1,8 @@
+services:
+  chocolate:
+    build: .
+    env_file: .env
+    volumes:
+      - ./config.json:/app/config.json
+      - ./log:/app/log
+    restart: unless-stopped
