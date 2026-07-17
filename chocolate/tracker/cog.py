@@ -19,14 +19,26 @@ class ProjectsTrackerCog(commands.Cog):
             [self.bot.get_channel(channel_id) for channel_id in channel_ids]
         ))
 
-        data = IntraV2.validated_projects(
+
+        all_data = IntraV2.validated_projects(
             ["75",],
             LastCheck.get_time(),
-            page_size=400
+            page_size=100,
         )
+        data = all_data
 
+        page = 1
+        while data:
+            page += 1
+            data = IntraV2.validated_projects(
+                ["75",],
+                LastCheck.get_time(),
+                page_size=100,
+                page_number=page
+            )
+            all_data.extend(data)
         print("Last Check At:", LastCheck.date.strftime("%Y-%m-%d %I:%M%p"))
-        for project in data:
+        for project in all_data:
             for chnl in channels:
                 await chnl.send(embed=ProjectCard.embed(project))
                 await asyncio.sleep(0.7)

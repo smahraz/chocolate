@@ -17,15 +17,17 @@ class IntraV2:
             campuses: list[str],
             markedat_from: str,
             markedat_to: str = "now",
-            page_size: int = 100
-    ) -> dict:
+            page_size: int = 100,
+            page_number: int = 1
+    ) -> list:
         """
         /v2/projects_users
         """
 
         params = {
             "range[marked_at]": f"{markedat_from},{markedat_to}",
-            "page[size]": f"{page_size}"
+            "page[size]": page_size,
+            "page[number]": page_number
         }
 
         if campuses:
